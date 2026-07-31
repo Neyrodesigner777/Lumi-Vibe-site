@@ -14,7 +14,8 @@
             --accent-glow: rgba(56, 189, 248, 0.6);
             --glass-bg: rgba(255, 255, 255, 0.6);
             --glass-border: rgba(255, 255, 255, 0.8);
-            --btn-stream: #0f172a;
+            --btn-accent: rgba(56, 189, 248, 0.6);
+            --btn-accent-hover: rgba(56, 189, 248, 1);
         }
         
         body {
@@ -25,10 +26,11 @@
                 radial-gradient(circle at 90% 80%, rgba(216, 180, 254, 0.3) 0%, transparent 40%);
             background-attachment: fixed;
             line-height: 1.6;
-            overflow-x: hidden; /* чтобы шлейф не создавал горизонтальный скролл */
+            overflow-x: hidden;
+            cursor: default;
         }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
         
         header { padding: 80px 0 40px; text-align: center; }
         h1 { 
@@ -42,118 +44,82 @@
 
         /* Обложки релизов */
         .cover-art {
-            width: 120px;
-            height: 120px;
-            border-radius: 16px;
-            background-color: #cbd5e1;
-            object-fit: cover;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            width: 120px; height: 120px;
+            border-radius: 16px; background-color: #cbd5e1;
+            object-fit: cover; box-shadow: 0 6px 20px rgba(0,0,0,0.1);
         }
 
         .glass-panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            margin-bottom: 40px;
+            border-radius: 24px; padding: 40px; margin-bottom: 40px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03), inset 0 0 0 1px rgba(255,255,255,0.5);
         }
 
-        /* Заголовок релизов */
         .glass-panel h2 {
-            color: #0ea5e9;
-            text-shadow: 0 2px 4px rgba(0,165,233,0.3);
-            font-weight: 700;
+            color: #0ea5e9; text-shadow: 0 2px 4px rgba(0,165,233,0.3); font-weight: 700;
         }
-
         h2 { margin-top: 0; font-size: 2rem; color: #0f172a; }
 
-        /* Контейнер для релизов с прокруткой */
+        /* Контейнер для релизов */
         .track-items-container {
+            display: flex; /* чтобы margin между карточками работал предсказуемо */
+            gap: 32px; /* расстояние между карточками */
             overflow-x: auto;
+            padding-bottom: 16px;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
+            /* отступы, чтобы крайние карточки не упирались в края */
+            padding-left: 16px;
+            padding-right: 16px;
         }
 
         .track-item {
-            flex: 0 0 300px;
-            margin-right: 20px;
+            flex: 0 0 300px; /* фиксированная ширина карточки */
+            display: flex; flex-direction: column; align-items: flex-start;
         }
 
-        /* Кнопки плей/пауза */
+        /* Кнопки */
         .play-btn {
-            padding: 8px 32px;
-            min-width: 150px;
-            font-size: 1rem;
-            background: rgba(14, 165, 233, 0.2);
-            color: #0ea5e9;
-            border-radius: 24px;
-            transition: all 0.3s;
-            border: 1px solid #0ea5e9;
-            cursor: pointer;
-            font-weight: 600;
-            display: inline-block;
-            text-decoration: none;
-            margin-top: 10px;
+            padding: 8px 32px; min-width: 150px; font-size: 1rem;
+            background: rgba(56, 189, 248, 0.15); color: var(--btn-accent);
+            border: 1px solid var(--btn-accent); border-radius: 24px;
+            cursor: pointer; font-weight: 600; display: inline-block;
+            margin-top: 10px; transition: all 0.3s;
+        }
+        .play-btn:hover, .play-btn.playing {
+            background: var(--btn-accent); color: white; border-color: var(--btn-accent);
         }
 
-        .play-btn:hover {
-            background: #0ea5e9;
-            color: white;
-        }
-        .play-btn.playing {
-            background: #0ea5e9;
-            color: white;
-        }
-
-        /* Кнопки стримингов */
-        .btn-stream {
-            background: linear-gradient(135deg, #0f172a, #334155);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-        .btn-stream:hover {
-            background: linear-gradient(135deg, #1e293b, #556b8d);
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .action-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
         .btn-stream {
             padding: 8px 16px; border-radius: 20px; text-decoration: none;
             font-size: 0.9rem; font-weight: 600; color: white;
-            background: var(--btn-stream); transition: all 0.2s;
+            background: var(--btn-accent); transition: all 0.2s;
         }
-        .btn-stream:hover { background: #334155; box-shadow: 0 0 15px rgba(15, 23, 42, 0.3); }
+        .btn-stream:hover {
+            background: var(--btn-accent-hover); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
         .btn-license {
             padding: 8px 16px; border-radius: 20px; text-decoration: none;
             font-size: 0.9rem; font-weight: 600; color: #0f172a;
             border: 1px solid #cbd5e1; transition: all 0.2s;
         }
-        .btn-license:hover { border-color: #0ea5e9; color: #0ea5e9; }
+        .btn-license:hover { border-color: var(--btn-accent); color: var(--btn-accent); }
 
+        .action-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
         .track-info { flex-grow: 1; }
         .track-title { font-weight: bold; font-size: 1.1rem; }
         .track-genre { font-size: 0.85rem; color: var(--accent-glow); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .track-item:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15); }
 
-        .track-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
-        }
-
-        /* Фиксированное положение закрытого клуба */
+        /* Лид-магнит */
         .funnel-section {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            z-index: 999;
-            background: var(--glass-bg);
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+            position: fixed; bottom: 0; width: 100%; z-index: 999;
+            background: var(--glass-bg); box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+            text-align: center; position: relative; overflow: hidden;
         }
-
-        .funnel-section { text-align: center; position: relative; overflow: hidden; }
         .funnel-section::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 60%);
@@ -164,53 +130,43 @@
             50% { transform: scale(1.05); opacity: 0.8; }
             100% { transform: scale(1); opacity: 0.5; }
         }
-        
         .form-group { display: flex; justify-content: center; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
         input[type="email"] { 
             padding: 15px 25px; border-radius: 30px; border: 1px solid rgba(0,0,0,0.1); 
             background: rgba(255,255,255,0.8); color: #0f172a; min-width: 280px; font-size: 1rem;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); outline: none;
         }
-        input[type="email"]:focus { border-color: #0ea5e9; }
-        
+        input[type="email"]:focus { border-color: var(--btn-accent); }
         button.cta {
             padding: 15px 35px; border-radius: 30px; border: none;
-            background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; 
+            background: var(--btn-accent); color: white; 
             font-weight: bold; font-size: 1rem; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
         }
-        button.cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6); }
+        button.cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6); }
 
-        .search-container {
-            margin: 20px;
-            display: flex;
-            align-items: center;
-        }
-
+        .search-container { margin: 20px; display: flex; align-items: center; }
         #search-input {
-            padding: 10px;
-            border-radius: 20px;
-            border: 1px solid #cbd5e1;
-            margin-right: 10px;
+            padding: 10px; border-radius: 20px; border: 1px solid #cbd5e1; margin-right: 10px;
         }
 
         @media (max-width: 600px) {
             .track-item { flex-direction: column; text-align: center; }
             .action-buttons { justify-content: center; }
+            .track-items-container { gap: 20px; padding-left: 12px; padding-right: 12px; }
         }
 
-        /* --- ШЛЕЙФ: мелкодисперсная пыль, сиренево-голубая, нежные полупрозрачные оттенки --- */
+        /* --- ШЛЕЙФ: сиренево-голубая пыль --- */
         .dust-particle {
             position: absolute;
             pointer-events: none;
             z-index: 9999;
-            filter: drop-shadow(0 0 6px rgba(138, 110, 202, 0.4));
-            animation: float-dust 1.5s infinite ease-in-out;
+            filter: drop-shadow(0 0 8px rgba(138, 110, 202, 0.5));
+            animation: float-dust 1.8s infinite ease-in-out;
         }
-
         @keyframes float-dust {
-            0%, 100% { transform: translate(0, 0) scale(0.8); opacity: 0.7; }
-            50% { transform: translate(-4px, -4px) scale(1.1); opacity: 0.4; }
+            0%, 100% { transform: translate(0, 0) scale(0.7); opacity: 0.6; }
+            50% { transform: translate(-5px, -5px) scale(1.2); opacity: 0.3; }
         }
     </style>
 </head>
@@ -223,29 +179,22 @@
 
         <section class="glass-panel">
             <h2>Релизы</h2>
-
-            <!-- Поиск вынесен наверх -->
             <div class="search-container">
                 <input type="search" id="search-input" placeholder="Поиск по названию или жанру" />
                 <button onclick="searchTracks()">Искать</button>
             </div>
 
             <div class="track-items-container">
-                <!-- Трек 1: Лиричный -->
+                <!-- Трек 1 -->
                 <div class="track-item">
                     <img src="music/Covers/bez-vesti-zhivoy.png" alt="Обложка трека" class="cover-art">
                     <div class="track-info">
-                        <div class="track-genre">Лирическая / Баллада </div>
+                        <div class="track-genre">Лирическая / Баллада</div>
                         <div class="track-title">Без вести живой</div>
-                        
-                        <!-- Скрытый аудиофайл -->
                         <audio id="audio-neon" preload="metadata">
                             <source src="music/Без-вести-живой.mp3" type="audio/mpeg">
                         </audio>
-                        
-                        <!-- Кастомная кнопка вместо плеера -->
                         <button type="button" class="play-btn" data-audio="audio-neon">Слушать</button>
-
                         <div class="action-buttons">
                             <a href="#" class="btn-stream">Слушать в Яндекс.Музыке</a>
                             <a href="#" class="btn-license">Купить лицензию</a>
@@ -253,31 +202,28 @@
                     </div>
                 </div>
 
-                <!-- Трек 2: Лиричный -->
+                <!-- Трек 2 -->
                 <div class="track-item">
                     <img src="music/Covers/Zhuravliny-klin.png" alt="Обложка трека" class="cover-art">
                     <div class="track-info">
-                        <div class="track-genre">Лирическая / Баллада </div>
-                        <div class="track-title">Журавлиный клин </div>
-                        
-                        <!-- Скрытый аудиофайл -->
+                        <div class="track-genre">Лирическая / Баллада</div>
+                        <div class="track-title">Журавлиный клин</div>
                         <audio id="audio-ocean" preload="metadata">
                             <source src="music/Бессмертный-клин.mp3" type="audio/mpeg">
                         </audio>
-
-                        <!-- Кастомная кнопка вместо плеера -->
                         <button type="button" class="play-btn" data-audio="audio-ocean">Слушать</button>
-
                         <div class="action-buttons">
                             <a href="#" class="btn-stream">Слушать в Spotify</a>
                             <a href="#" class="btn-license">Купить лицензию</a>
                         </div>
                     </div>
                 </div>
+
+                <!-- Добавь сюда ещё карточки по аналогии -->
             </div>
         </section>
 
-        <!-- Сбор базы (Лид-магнит) -->
+        <!-- Лид-магнит -->
         <section class="glass-panel funnel-section">
             <h2>Закрытый клуб LumiVibe</h2>
             <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
@@ -290,11 +236,11 @@
         </section>
     </div>
 
-    <!-- Скрипт управления аудио -->
+    <!-- Скрипт: аудио + шлейф пыли -->
     <script>
+        // Аудио
         document.addEventListener('DOMContentLoaded', function() {
             const buttons = document.querySelectorAll('.play-btn');
-            
             buttons.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const audioId = this.getAttribute('data-audio');
@@ -312,4 +258,17 @@
                     });
 
                     if (audio.paused) {
-                        audio.
+                        audio.play().catch(e => console.log('Автовоспроизведение заблокировано браузером', e));
+                        this.textContent = 'Пауза';
+                        this.classList.add('playing');
+                    } else {
+                        audio.pause();
+                        this.textContent = 'Слушать';
+                        this.classList.remove('playing');
+                    }
+                });
+            });
+        });
+
+        function searchTracks() {
+            const
