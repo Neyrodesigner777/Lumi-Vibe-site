@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LumiVibe | Музыка для души и нейро-релизы</title>
+    <meta name="description" content="LumiVibe — эксклюзивная нейромузыка. От танцевальных битов до лирического релакса. Слушайте онлайн, оформляйте коммерческую лицензию.">
+    
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent-glow: rgba(56, 189, 248, 0.6);
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --btn-stream: #0f172a;
+        }
+        
+        body {
+            margin: 0; font-family: system-ui, -apple-system, sans-serif;
+            background: var(--bg-color); color: var(--text-main);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(125, 211, 252, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(216, 180, 254, 0.3) 0%, transparent 40%);
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        
+        header { padding: 80px 0 40px; text-align: center; }
+        h1 { 
+            font-size: 3.5rem; margin-bottom: 10px; font-weight: 800;
+            background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--accent-glow);
+        }
+        .subtitle { font-size: 1.2rem; color: var(--text-muted); }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03), inset 0 0 0 1px rgba(255,255,255,0.5);
+        }
+
+        h2 { margin-top: 0; font-size: 2rem; color: #0f172a; }
+
+        /* Плеер и треки */
+        .track-item {
+            display: flex; align-items: center; gap: 20px; 
+            padding: 20px; border-radius: 16px;
+            background: rgba(255,255,255,0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 15px;
+        }
+        .track-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
+        }
+        .cover-art {
+            width: 80px; height: 80px; border-radius: 12px;
+            background-color: #cbd5e1;
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .track-info { flex-grow: 1; }
+        .track-title { font-weight: bold; font-size: 1.1rem; }
+        .track-genre { font-size: 0.85rem; color: var(--accent-glow); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Кнопки стримингов и лицензий */
+        .action-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .btn-stream {
+            padding: 8px 16px; border-radius: 20px; text-decoration: none;
+            font-size: 0.9rem; font-weight: 600; color: white;
+            background: var(--btn-stream); transition: all 0.2s;
+        }
+        .btn-stream:hover { background: #334155; box-shadow: 0 0 15px rgba(15, 23, 42, 0.3); }
+        .btn-license {
+            padding: 8px 16px; border-radius: 20px; text-decoration: none;
+            font-size: 0.9rem; font-weight: 600; color: #0f172a;
+            border: 1px solid #cbd5e1; transition: all 0.2s;
+        }
+        .btn-license:hover { border-color: #0ea5e9; color: #0ea5e9; }
+
+        /* Кнопка воспроизведения (кастомная) */
+        .play-btn {
+            background: rgba(14, 165, 233, 0.2);
+            color: #0ea5e9;
+            border: 1px solid #0ea5e9;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .play-btn:hover {
+            background: #0ea5e9;
+            color: white;
+        }
+        .play-btn.playing {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        /* Воронка (Лид-магнит) */
+        .funnel-section { text-align: center; position: relative; overflow: hidden; }
+        .funnel-section::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 60%);
+            z-index: -1; animation: pulse 6s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+        
+        .form-group { display: flex; justify-content: center; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
+        input[type="email"] { 
+            padding: 15px 25px; border-radius: 30px; border: 1px solid rgba(0,0,0,0.1); 
+            background: rgba(255,255,255,0.8); color: #0f172a; min-width: 280px; font-size: 1rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); outline: none;
+        }
+        input[type="email"]:focus { border-color: #0ea5e9; }
+        
+        button.cta {
+            padding: 15px 35px; border-radius: 30px; border: none;
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; 
+            font-weight: bold; font-size: 1rem; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+        }
+        button.cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6); }
+
+        @media (max-width: 600px) {
+            .track-item { flex-direction: column; text-align: center; }
+            .action-buttons { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LumiVibe</h1>
+            <p class="subtitle">Искусство нейрозвука. От взрывных стадионов до глубокого релакса.</p>
+        </header>
+
+        <section class="glass-panel">
+            <h2>Релизы</h2>
+            
+            <!-- Трек 1: Лиричный -->
+            <div class="track-item">
+                <img src="music/covers/Без-вести-живой.png" alt="Обложка трека" class="cover-art">
+                <div class="track-info">
+                    <div class="track-genre">Лирическая / EDM</div>
+                    <div class="track-title">Без-вести-живой</div>
+                    
+                    <!-- Скрытый аудиофайл -->
+                    <audio id="audio-neon" preload="metadata">
+                        <source src="music/Без-вести-живой.mp3" type="audio/mpeg">
+                    </audio>
+                    
+                    <!-- Кастомная кнопка вместо плеера -->
+                    <button type="button" class="play-btn" data-audio="audio-neon">Слушать</button>
+
+                    <div class="action-buttons">
+                        <a href="#" class="btn-stream">Слушать в Яндекс.Музыке</a>
+                        <a href="#" class="btn-license">Купить лицензию</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Трек 2: Лиричный -->
+            <div class="track-item">
+                <img src="music/covers/Журавлиный-клин-мужской-вокал_1.png" alt="Обложка трека" class="cover-art">
+                <div class="track-info">
+                    <div class="track-genre">Релакс / Лирика</div>
+                    <div class="track-title">Ocean of Thoughts</div>
+                    
+                    <!-- Скрытый аудиофайл -->
+                    <audio id="audio-ocean" preload="metadata">
+                        <source src="music/Бессмертный-клин.mp3" type="audio/mpeg">
+                    </audio>
+
+                    <!-- Кастомная кнопка вместо плеера -->
+                    <button type="button" class="play-btn" data-audio="audio-ocean">Слушать</button>
+
+                    <div class="action-buttons">
+                        <a href="#" class="btn-stream">Слушать в Spotify</a>
+                        <a href="#" class="btn-license">Купить лицензию</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Сбор базы (Лид-магнит) -->
+        <section class="glass-panel funnel-section">
+            <h2>Закрытый клуб LumiVibe</h2>
+            <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
+                Оставь свой email, чтобы получить ранний доступ к новым релизам до их выхода на стримингах, а также эксклюзивные инструменталы.
+            </p>
+            <form action="#" method="POST" class="form-group">
+                <input type="email" name="email" placeholder="Твой email адрес..." required>
+                <button type="submit" class="cta">Получить доступ</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Скрипт управления аудио -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.play-btn');
+            
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const audioId = this.getAttribute('data-audio');
+                    const audio = document.getElementById(audioId);
+                    
+                    // Если другой трек играет - ставим его на паузу
+                    document.querySelectorAll('audio').forEach(a => {
+                        if (a !== audio && !a.paused) {
+                            a.pause();
+                            const otherBtn = document.querySelector(`.play-btn[data-audio="\${a.id}"]`);
+                            if (otherBtn) {
+                                otherBtn.textContent = 'Слушать';
+                                otherBtn.classList.remove('playing');
+                            }
+                        }
+                    });
+
+                    if (audio.paused) {
+                        audio.play().catch(e => console.log('Автовоспроизведение заблокировано браузером, требуется клик', e));
+                        this.textContent = 'Пауза';
+                        this.classList.add('playing');
+                    } else {
+                        audio.pause();
+                        this.textContent = 'Слушать';
+                        this.classList.remove('playing');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
