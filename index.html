@@ -42,6 +42,10 @@
             transition: all 0.3s;
         }
 
+.btn-stream:hover {
+    background: linear-gradient(135deg, #1e293b, #556b8d);
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
+}
         /* Контейнер для релизов с прокруткой */
         .track-items-container {
             overflow-x: auto;
@@ -50,7 +54,7 @@
         }
 
         .track-item {
-            flex: 0 0 300px;
+            flex: 0 0 300px;  /* фиксированная ширина элемента */
             margin-right: 20px;
         }
 
@@ -64,15 +68,18 @@
             box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
         }
 
-        /* Социальные ссылки */
-        .social-links {
-            margin: 20px;
-        }
+        .search-container {
+    margin: 20px;
+    display: flex;
+    align-items: center;
+}
 
-        .social-link {
-            margin-right: 15px;
-        }
-        
+#search-input {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #cbd5e1;
+    margin-right: 10px;
+}
         :root {
             --bg-color: #f0f4f8;
             --text-main: #1e293b;
@@ -118,24 +125,35 @@
 
         h2 { margin-top: 0; font-size: 2rem; color: #0f172a; }
 
+        /*Социальные сети*/
+        <div class="social-links">
+    <a href="#" class="social-link">
+        <img src="vk.png" alt="VK">
+    </a>
+    <a href="#" class="social-link">
+        <img src="telegram.png" alt="Telegram">
+    </a>
+    <!-- добавить остальные соцсети -->
+</div>
+        /*Добавление поиска на лендинге
+        <div class="search-container">
+    <input type="search" id="search-input" placeholder="Поиск по названию или жанру" />
+    <button onclick="searchTracks()">Искать</button>
+</div>
+        */ 
         /* Плеер и треки */
-        .track-item {
+      /*  .track-item {
             display: flex; align-items: center; gap: 20px; 
             padding: 20px; border-radius: 16px;
             background: rgba(255,255,255,0.4);
             transition: transform 0.3s, box-shadow 0.3s;
             margin-bottom: 15px;
         }
-        .track-item:hover {
+*/        .track-item:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
         }
-        .cover-art {
-            width: 80px; height: 80px; border-radius: 12px;
-            background-color: #cbd5e1;
-            object-fit: cover;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+        
         .track-info { flex-grow: 1; }
         .track-title { font-weight: bold; font-size: 1.1rem; }
         .track-genre { font-size: 0.85rem; color: var(--accent-glow); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
@@ -230,6 +248,11 @@
                     <div class="track-genre">Лирическая / Баллада </div>
                     <div class="track-title">Без вести живой</div>
                     
+                    /*Элемент поиска*/
+                    <div class="search-container">
+    <input type="search" id="search-input" placeholder="Поиск по названию или жанру" />
+    <button onclick="searchTracks()">Искать</button>
+</div>
                     <!-- Скрытый аудиофайл -->
                     <audio id="audio-neon" preload="metadata">
                         <source src="music/Без-вести-живой.mp3" type="audio/mpeg">
@@ -315,6 +338,21 @@
                 });
             });
         });
+        function searchTracks() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const tracks = document.querySelectorAll('.track-item');
+        
+        tracks.forEach(track => {
+            const title = track.querySelector('.track-title').innerText.toLowerCase();
+            const genre = track.querySelector('.track-genre').innerText.toLowerCase();
+            
+            if (title.includes(query) || genre.includes(query)) {
+                track.style.display = 'flex';
+            } else {
+                track.style.display = 'none';
+            }
+        });
+    }
     </script>
 </body>
 </html>
