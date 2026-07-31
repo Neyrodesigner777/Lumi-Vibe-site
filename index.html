@@ -44,9 +44,10 @@
 
         /* Обложки релизов */
         .cover-art {
-            width: 120px; height: 120px;
+            width: 150px; height: 150px;
             border-radius: 16px; background-color: #cbd5e1;
-            object-fit: cover; box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            object-fit: cover; box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            display: block; margin: 0 auto 16px auto;
         }
 
         .glass-panel {
@@ -62,57 +63,70 @@
         }
         h2 { margin-top: 0; font-size: 2rem; color: #0f172a; }
 
-        /* Контейнер для релизов */
-        .track-items-container {
-            display: flex; /* чтобы margin между карточками работал предсказуемо */
-            gap: 32px; /* расстояние между карточками */
-            overflow-x: auto;
-            padding-bottom: 16px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            /* отступы, чтобы крайние карточки не упирались в края */
-            padding-left: 16px;
-            padding-right: 16px;
+        /* Сетка релизов: ровно 3 в ряд на ПК, дальше вниз */
+        .tracks-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+            gap: 32px;
         }
 
         .track-item {
-            flex: 0 0 300px; /* фиксированная ширина карточки */
-            display: flex; flex-direction: column; align-items: flex-start;
+            display: flex; flex-direction: column; align-items: center;
         }
 
         /* Кнопки */
         .play-btn {
-            padding: 8px 32px; min-width: 150px; font-size: 1rem;
+            padding: 10px 24px; font-size: 1rem;
             background: rgba(56, 189, 248, 0.15); color: var(--btn-accent);
-            border: 1px solid var(--btn-accent); border-radius: 24px;
+            border: 1px solid var(--btn-accent); border-radius: 20px;
             cursor: pointer; font-weight: 600; display: inline-block;
-            margin-top: 10px; transition: all 0.3s;
+            transition: all 0.3s;
         }
         .play-btn:hover, .play-btn.playing {
             background: var(--btn-accent); color: white; border-color: var(--btn-accent);
         }
 
-        .btn-stream {
-            padding: 8px 16px; border-radius: 20px; text-decoration: none;
-            font-size: 0.9rem; font-weight: 600; color: white;
-            background: var(--btn-accent); transition: all 0.2s;
+        /* Выпадающий список площадок */
+        .platforms-toggle {
+            margin-top: 12px; font-size: 0.95rem; color: var(--text-muted);
+            cursor: pointer; display: flex; align-items: center; gap: 8px;
+            user-select: none;
         }
-        .btn-stream:hover {
-            background: var(--btn-accent-hover); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        .platforms-toggle::after {
+            content: '▼'; font-size: 0.7rem; transition: transform 0.3s;
         }
+        .platforms-toggle.open::after { transform: rotate(180deg); }
+        .platform-list {
+            max-height: 0; opacity: 0; overflow: hidden;
+            list-style: none; padding: 0; margin: 8px 0 16px 0;
+            transition: max-height 0.4s ease, opacity 0.4s;
+        }
+        .platform-list.active {
+            max-height: 200px; opacity: 1;
+        }
+        .platform-list li {
+            margin: 6px 0;
+        }
+        .platform-link {
+            display: inline-block; padding: 6px 12px; border-radius: 12px;
+            color: white; font-size: 0.85rem; font-weight: 500; text-decoration: none;
+            background: #334155;
+        }
+        .platform-link.ym { background: #fc0; color: #000; }
+        .platform-link.spotify { background: #00ab6c; }
 
-        .btn-license {
-            padding: 8px 16px; border-radius: 20px; text-decoration: none;
-            font-size: 0.9rem; font-weight: 600; color: #0f172a;
-            border: 1px solid #cbd5e1; transition: all 0.2s;
+        .license-btn {
+            padding: 10px 24px; font-size: 1rem;
+            background: white; color: #0f172a;
+            border: 1px solid #cbd5e1; border-radius: 20px;
+            cursor: pointer; font-weight: 600; transition: all 0.2s;
         }
-        .btn-license:hover { border-color: var(--btn-accent); color: var(--btn-accent); }
+        .license-btn:hover { border-color: var(--btn-accent); color: var(--btn-accent); }
 
-        .action-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-        .track-info { flex-grow: 1; }
-        .track-title { font-weight: bold; font-size: 1.1rem; }
-        .track-genre { font-size: 0.85rem; color: var(--accent-glow); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .track-item:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15); }
+        .track-title { font-weight: bold; font-size: 1.1rem; margin: 8px 0 4px 0; text-align: center; }
+        .track-genre { font-size: 0.85rem; color: var(--accent-glow); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; text-align: center; margin-bottom: 16px; }
+
+        .track-item:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(56, 189, 248, 0.2); }
 
         /* Лид-магнит */
         .funnel-section {
@@ -145,15 +159,28 @@
         }
         button.cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6); }
 
-        .search-container { margin: 20px; display: flex; align-items: center; }
+        /* Поиск */
+        .search-container { margin: 20px; display: flex; align-items: center; gap: 12px; }
         #search-input {
-            padding: 10px; border-radius: 20px; border: 1px solid #cbd5e1; margin-right: 10px;
+            padding: 12px; border-radius: 20px; border: 1px solid #cbd5e1; flex: 1; min-width: 300px;
+        }
+        #search-btn {
+            padding: 12px 24px; border-radius: 20px; border: none; background: var(--btn-accent); color: white;
+            font-weight: 600; cursor: pointer;
+        }
+        #search-btn:hover { background: var(--btn-accent-hover); }
+
+        #search-result-msg {
+            margin: 12px 0; padding: 10px; background: rgba(241, 199, 199, 0.3);
+            color: #991b1b; border-radius: 12px; text-align: center; display: none;
         }
 
+        @media (max-width: 900px) {
+            .tracks-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        }
         @media (max-width: 600px) {
-            .track-item { flex-direction: column; text-align: center; }
-            .action-buttons { justify-content: center; }
-            .track-items-container { gap: 20px; padding-left: 12px; padding-right: 12px; }
+            .tracks-grid { grid-template-columns: 1fr; }
+            #search-input { min-width: auto; }
         }
 
         /* --- ШЛЕЙФ: сиренево-голубая пыль --- */
@@ -179,26 +206,35 @@
 
         <section class="glass-panel">
             <h2>Релизы</h2>
+
             <div class="search-container">
-                <input type="search" id="search-input" placeholder="Поиск по названию или жанру" />
-                <button onclick="searchTracks()">Искать</button>
+                <input type="text" id="search-input" placeholder="Поиск по названию или жанру" />
+                <button id="search-btn" onclick="searchTracks()">Искать</button>
             </div>
 
-            <div class="track-items-container">
+            <div id="search-result-msg"></div>
+
+            <div class="tracks-grid" id="tracks-container">
                 <!-- Трек 1 -->
                 <div class="track-item">
                     <img src="music/Covers/bez-vesti-zhivoy.png" alt="Обложка трека" class="cover-art">
                     <div class="track-info">
                         <div class="track-genre">Лирическая / Баллада</div>
                         <div class="track-title">Без вести живой</div>
+                        
                         <audio id="audio-neon" preload="metadata">
                             <source src="music/Без-вести-живой.mp3" type="audio/mpeg">
                         </audio>
                         <button type="button" class="play-btn" data-audio="audio-neon">Слушать</button>
-                        <div class="action-buttons">
-                            <a href="#" class="btn-stream">Слушать в Яндекс.Музыке</a>
-                            <a href="#" class="btn-license">Купить лицензию</a>
-                        </div>
+
+                        <div class="platforms-toggle" onclick="togglePlatforms(this)">Слушать на площадках ▼</div>
+                        <ul class="platform-list">
+                            <li><a href="#" class="platform-link ym">Яндекс Музыка</a></li>
+                            <li><a href="#" class="platform-link spotify">Spotify</a></li>
+                            <li><a href="#" class="platform-link">VK Музыка</a></li>
+                        </ul>
+
+                        <button type="button" class="license-btn" onclick="contactTelegram()">Купить лицензию</button>
                     </div>
                 </div>
 
@@ -208,67 +244,231 @@
                     <div class="track-info">
                         <div class="track-genre">Лирическая / Баллада</div>
                         <div class="track-title">Журавлиный клин</div>
+                        
                         <audio id="audio-ocean" preload="metadata">
                             <source src="music/Бессмертный-клин.mp3" type="audio/mpeg">
                         </audio>
                         <button type="button" class="play-btn" data-audio="audio-ocean">Слушать</button>
-                        <div class="action-buttons">
-                            <a href="#" class="btn-stream">Слушать в Spotify</a>
-                            <a href="#" class="btn-license">Купить лицензию</a>
-                        </div>
-                    </div>
+
+                        <div class="platforms-toggle" onclick="togglePlatforms(this)">Слушать на площадках ▼</div>
+                        <ul class="platform-list">
+                            <li><a href="#" class="platform-link ym">Яндекс Музыка</a></li>
+                            <li><a href="#" class="platform-link spotify">Spotify</a></li>
+                            <li><a href="#" class="platform-link">VK Музыка</a></li>
+                        <li><a href="#" class="platform-link">VK Музыка</a></li>
+                    </ul>
+
+                    <button type="button" class="license-btn" onclick="contactTelegram()">Купить лицензию</button>
                 </div>
-
-                <!-- Добавь сюда ещё карточки по аналогии -->
             </div>
-        </section>
 
-        <!-- Лид-магнит -->
-        <section class="glass-panel funnel-section">
-            <h2>Закрытый клуб LumiVibe</h2>
-            <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
-                Оставь свой email, чтобы получить ранний доступ к новым релизам до их выхода на стримингах, а также эксклюзивные инструменталы.
-            </p>
-            <form action="#" method="POST" class="form-group">
-                <input type="email" name="email" placeholder="Твой email адрес..." required>
-                <button type="submit" class="cta">Получить доступ</button>
-            </form>
-        </section>
-    </div>
-
-    <!-- Скрипт: аудио + шлейф пыли -->
-    <script>
-        // Аудио
-        document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.play-btn');
-            buttons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const audioId = this.getAttribute('data-audio');
-                    const audio = document.getElementById(audioId);
+            <!-- Трек 3 -->
+            <div class="track-item">
+                <img src="music/Covers/tihaya-noch.png" alt="Обложка трека" class="cover-art">
+                <div class="track-info">
+                    <div class="track-genre">Эмбиент / Релакс</div>
+                    <div class="track-title">Тихая ночь</div>
                     
-                    document.querySelectorAll('audio').forEach(a => {
-                        if (a !== audio && !a.paused) {
-                            a.pause();
-                            const otherBtn = document.querySelector(`.play-btn[data-audio="${a.id}"]`);
-                            if (otherBtn) {
-                                otherBtn.textContent = 'Слушать';
-                                otherBtn.classList.remove('playing');
-                            }
-                        }
-                    });
+                    <audio id="audio-night" preload="metadata">
+                        <source src="music/Тихая-ночь.mp3" type="audio/mpeg">
+                    </audio>
+                    <button type="button" class="play-btn" data-audio="audio-night">Слушать</button>
 
-                    if (audio.paused) {
-                        audio.play().catch(e => console.log('Автовоспроизведение заблокировано браузером', e));
-                        this.textContent = 'Пауза';
-                        this.classList.add('playing');
-                    } else {
-                        audio.pause();
-                        this.textContent = 'Слушать';
-                        this.classList.remove('playing');
-                    }
-                });
-            });
+                    <div class="platforms-toggle" onclick="togglePlatforms(this)">Слушать на площадках ▼</div>
+                    <ul class="platform-list">
+                        <li><a href="#" class="platform-link ym">Яндекс Музыка</a></li>
+                        <li><a href="#" class="platform-link spotify">Spotify</a></li>
+                        <li><a href="#" class="platform-link">VK Музыка</a></li>
+                    </ul>
+
+                    <button type="button" class="license-btn" onclick="contactTelegram()">Купить лицензию</button>
+                </div>
+            </div>
+
+            <!-- Трек 4 -->
+            <div class="track-item">
+                <img src="music/Covers/puls-goroda.png" alt="Обложка трека" class="cover-art">
+                <div class="track-info">
+                    <div class="track-genre">Электроника / Dance</div>
+                    <div class="track-title">Пульс города</div>
+                    
+                    <audio id="audio-city" preload="metadata">
+                        <source src="music/Пульс-города.mp3" type="audio/mpeg">
+                    </audio>
+                    <button type="button" class="play-btn" data-audio="audio-city">Слушать</button>
+
+                    <div class="platforms-toggle" onclick="togglePlatforms(this)">Слушать на площадках ▼</div>
+                    <ul class="platform-list">
+                        <li><a href="#" class="platform-link ym">Яндекс Музыка</a></li>
+                        <li><a href="#" class="platform-link spotify">Spotify</a></li>
+                        <li><a href="#" class="platform-link">VK Музыка</a></li>
+                    </ul>
+
+                    <button type="button" class="license-btn" onclick="contactTelegram()">Купить лицензию</button>
+                </div>
+            </div>
+
+            <!-- Трек 5 -->
+            <div class="track-item">
+                <img src="music/Covers/svet-v-okne.png" alt="Обложка трека" class="cover-art">
+                <div class="track-info">
+                    <div class="track-genre">Поп / Инди</div>
+                    <div class="track-title">Свет в окне</div>
+                    
+                    <audio id="audio-window" preload="metadata">
+                        <source src="music/Свет-в-окне.mp3" type="audio/mpeg">
+                    </audio>
+                    <button type="button" class="play-btn" data-audio="audio-window">Слушать</button>
+
+                    <div class="platforms-toggle" onclick="togglePlatforms(this)">Слушать на площадках ▼</div>
+                    <ul class="platform-list">
+                        <li><a href="#" class="platform-link ym">Яндекс Музыка</a></li>
+                        <li><a href="#" class="platform-link spotify">Spotify</a></li>
+                        <li><a href="#" class="platform-link">VK Музыка</a></li>
+                    </ul>
+
+                    <button type="button" class="license-btn" onclick="contactTelegram()">Купить лицензию</button>
+                </div>
+            </div>
+
+            <!-- Трек 6 -->
+            <div class="track-item">
+                <img src="music/Covers/noch-bez-zvezd.png" alt="Обложка трека" class="cover-art">
+                <div class="track-info">
+                    <div class="track-genre">Рок / Баллада</div>
+                    <div class="track-title">Ночь без звёзд</div>
+                    
+                    <audio id="audio-stars" preload="metadata">
+                        <source src="music/Ночь-без-звёзд.mp3" type="audio/mpeg">
+                    </audio>
+                    <button type="button" class="play-btn" data-audio="audio-stars">Слушать</button>
+
+                    <div class="platforms-toggle" onclick="togglePlatforms(this)">Слушать на площадках ▼</div>
+                    <ul class="platform-list">
+                        <li><a href="#" class="platform-link ym">Яндекс Музыка</a></li>
+                        <li><a href="#" class="platform-link spotify">Spotify</a></li>
+                        <li><a href="#" class="platform-link">VK Музыка</a></li>
+                    </ul>
+
+                    <button type="button" class="license-btn" onclick="contactTelegram()">Купить лицензию</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Лид-магнит (подписка) -->
+<div class="funnel-section">
+    <div class="container">
+        <h3>Получите эксклюзивный трек в подарок</h3>
+        <p style="color: var(--text-muted); margin-bottom: 15px;">Подпишитесь на закрытый канал — пришлём ссылку на скачивание.</p>
+        <div class="form-group">
+            <input type="email" id="lead-email" placeholder="Ваш e-mail" />
+            <button class="cta" onclick="submitLeadForm()">Получить трек</button>
+        </div>
+    </div>
+</div>
+
+<!-- Скрипты -->
+<script>
+    // Логика проигрывания аудио
+    let currentAudio = null;
+    const playBtns = document.querySelectorAll('.play-btn');
+
+    playBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const audioId = btn.getAttribute('data-audio');
+            const audioEl = document.getElementById(audioId);
+
+            if (currentAudio && currentAudio !== audioEl) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                // убираем класс playing у старой кнопки
+                playBtns.forEach(b => b.classList.remove('playing'));
+            }
+
+            if (audioEl.paused) {
+                audioEl.play();
+                btn.classList.add('playing');
+            } else {
+                audioEl.pause();
+                btn.classList.remove('playing');
+            }
+            currentAudio = audioEl;
+        });
+    });
+
+    // Выпадающий список площадок
+    function togglePlatforms(toggleEl) {
+        const listEl = toggleEl.nextElementSibling;
+        toggleEl.classList.toggle('open');
+        listEl.classList.toggle('active');
+    }
+
+    // Поиск по трекам
+    function searchTracks() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const tracks = document.querySelectorAll('.track-item');
+        const msgEl = document.getElementById('search-result-msg');
+        let found = false;
+
+        tracks.forEach(track => {
+            const title = track.querySelector('.track-title').innerText.toLowerCase();
+            const genre = track.querySelector('.track-genre').innerText.toLowerCase();
+
+            if (title.includes(query) || genre.includes(query)) {
+                track.style.display = 'flex';
+                found = true;
+            } else {
+                track.style.display = 'none';
+            }
         });
 
-        function searchTracks() {
-            const
+        if (found) {
+            msgEl.style.display = 'none';
+        } else {
+            msgEl.innerText = 'Ничего не найдено по запросу «' + query + '»';
+            msgEl.style.display = 'block';
+        }
+    }
+
+    // Кнопка «Купить лицензию» → Telegram
+    function contactTelegram() {
+        window.open('https://t.me/ВАШ_НИК_ТЕЛЕГРАМ', '_blank');
+    }
+
+    // Отправка лид-формы
+    function submitLeadForm() {
+        const email = document.getElementById('lead-email').value;
+        if (!email || !email.includes('@')) {
+            alert('Пожалуйста, укажите корректный e-mail');
+            return;
+        }
+        alert('Спасибо! Мы отправили вам трек на ' + email);
+        document.getElementById('lead-email').value = '';
+    }
+</script>
+
+<!-- Частицы пыли (только для ПК) -->
+<script>
+    function createDust() {
+        const count = 40;
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            p.className = 'dust-particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.width = (Math.random() * 8 + 4) + 'px';
+            p.style.height = p.style.width;
+            p.style.animationDuration = (Math.random() * 2 + 1.2) + 's';
+            document.body.appendChild(p);
+        }
+    }
+
+    // Запускаем пыль только если ширина экрана > 768px (ПК)
+    if (window.innerWidth > 768) {
+        createDust();
+    }
+</script>
+</body>
+</html>
