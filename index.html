@@ -7,79 +7,6 @@
     <meta name="description" content="LumiVibe — эксклюзивная нейромузыка. От танцевальных битов до лирического релакса. Слушайте онлайн, оформляйте коммерческую лицензию.">
     
     <style>
- /* Обложки релизов */
-        .cover-art {
-            width: 120px;
-            height: 120px;
-            border-radius: 16px;
-            background-color: #cbd5e1;
-            object-fit: cover;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        }
-
-        /* Заголовок релизов */
-        .glass-panel h2 {
-            color: #0ea5e9;
-            text-shadow: 0 2px 4px rgba(0,165,233,0.3);
-            font-weight: 700;
-        }
-
-        /* Кнопки плей/пауза */
-        .play-btn {
-            padding: 8px 32px;
-            min-width: 150px;
-            font-size: 1rem;
-            background: rgba(14, 165, 233, 0.2);
-            color: #0ea5e9;
-            border-radius: 24px;
-            transition: all 0.3s;
-        }
-
-        /* Кнопки стримингов */
-        .btn-stream {
-            background: linear-gradient(135deg, #0f172a, #334155);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-.btn-stream:hover {
-    background: linear-gradient(135deg, #1e293b, #556b8d);
-    box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
-}
-        /* Контейнер для релизов с прокруткой */
-        .track-items-container {
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .track-item {
-            flex: 0 0 300px;  /* фиксированная ширина элемента */
-            margin-right: 20px;
-        }
-
-        /* Фиксированное положение закрытого клуба */
-        .funnel-section {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            z-index: 999;
-            background: var(--glass-bg);
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
-        }
-
-        .search-container {
-    margin: 20px;
-    display: flex;
-    align-items: center;
-}
-
-#search-input {
-    padding: 10px;
-    border-radius: 20px;
-    border: 1px solid #cbd5e1;
-    margin-right: 10px;
-}
         :root {
             --bg-color: #f0f4f8;
             --text-main: #1e293b;
@@ -98,6 +25,7 @@
                 radial-gradient(circle at 90% 80%, rgba(216, 180, 254, 0.3) 0%, transparent 40%);
             background-attachment: fixed;
             line-height: 1.6;
+            overflow-x: hidden; /* чтобы шлейф не создавал горизонтальный скролл */
         }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
@@ -112,6 +40,16 @@
         }
         .subtitle { font-size: 1.2rem; color: var(--text-muted); }
 
+        /* Обложки релизов */
+        .cover-art {
+            width: 120px;
+            height: 120px;
+            border-radius: 16px;
+            background-color: #cbd5e1;
+            object-fit: cover;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -123,42 +61,65 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03), inset 0 0 0 1px rgba(255,255,255,0.5);
         }
 
+        /* Заголовок релизов */
+        .glass-panel h2 {
+            color: #0ea5e9;
+            text-shadow: 0 2px 4px rgba(0,165,233,0.3);
+            font-weight: 700;
+        }
+
         h2 { margin-top: 0; font-size: 2rem; color: #0f172a; }
 
-        /*Социальные сети*/
-        <div class="social-links">
-    <a href="#" class="social-link">
-        <img src="vk.png" alt="VK">
-    </a>
-    <a href="#" class="social-link">
-        <img src="telegram.png" alt="Telegram">
-    </a>
-    <!-- добавить остальные соцсети -->
-</div>
-        /*Добавление поиска на лендинге
-        <div class="search-container">
-    <input type="search" id="search-input" placeholder="Поиск по названию или жанру" />
-    <button onclick="searchTracks()">Искать</button>
-</div>
-        */ 
-        /* Плеер и треки */
-      /*  .track-item {
-            display: flex; align-items: center; gap: 20px; 
-            padding: 20px; border-radius: 16px;
-            background: rgba(255,255,255,0.4);
-            transition: transform 0.3s, box-shadow 0.3s;
-            margin-bottom: 15px;
+        /* Контейнер для релизов с прокруткой */
+        .track-items-container {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
-*/        .track-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
-        }
-        
-        .track-info { flex-grow: 1; }
-        .track-title { font-weight: bold; font-size: 1.1rem; }
-        .track-genre { font-size: 0.85rem; color: var(--accent-glow); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Кнопки стримингов и лицензий */
+        .track-item {
+            flex: 0 0 300px;
+            margin-right: 20px;
+        }
+
+        /* Кнопки плей/пауза */
+        .play-btn {
+            padding: 8px 32px;
+            min-width: 150px;
+            font-size: 1rem;
+            background: rgba(14, 165, 233, 0.2);
+            color: #0ea5e9;
+            border-radius: 24px;
+            transition: all 0.3s;
+            border: 1px solid #0ea5e9;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .play-btn:hover {
+            background: #0ea5e9;
+            color: white;
+        }
+        .play-btn.playing {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        /* Кнопки стримингов */
+        .btn-stream {
+            background: linear-gradient(135deg, #0f172a, #334155);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .btn-stream:hover {
+            background: linear-gradient(135deg, #1e293b, #556b8d);
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
+        }
+
         .action-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
         .btn-stream {
             padding: 8px 16px; border-radius: 20px; text-decoration: none;
@@ -173,30 +134,25 @@
         }
         .btn-license:hover { border-color: #0ea5e9; color: #0ea5e9; }
 
-        /* Кнопка воспроизведения (кастомная) */
-        .play-btn {
-            background: rgba(14, 165, 233, 0.2);
-            color: #0ea5e9;
-            border: 1px solid #0ea5e9;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-            display: inline-block;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-        .play-btn:hover {
-            background: #0ea5e9;
-            color: white;
-        }
-        .play-btn.playing {
-            background: #0ea5e9;
-            color: white;
+        .track-info { flex-grow: 1; }
+        .track-title { font-weight: bold; font-size: 1.1rem; }
+        .track-genre { font-size: 0.85rem; color: var(--accent-glow); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        .track-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
         }
 
-        /* Воронка (Лид-магнит) */
+        /* Фиксированное положение закрытого клуба */
+        .funnel-section {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 999;
+            background: var(--glass-bg);
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+        }
+
         .funnel-section { text-align: center; position: relative; overflow: hidden; }
         .funnel-section::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
@@ -225,9 +181,36 @@
         }
         button.cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6); }
 
+        .search-container {
+            margin: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        #search-input {
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #cbd5e1;
+            margin-right: 10px;
+        }
+
         @media (max-width: 600px) {
             .track-item { flex-direction: column; text-align: center; }
             .action-buttons { justify-content: center; }
+        }
+
+        /* --- ШЛЕЙФ: мелкодисперсная пыль, сиренево-голубая, нежные полупрозрачные оттенки --- */
+        .dust-particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 9999;
+            filter: drop-shadow(0 0 6px rgba(138, 110, 202, 0.4));
+            animation: float-dust 1.5s infinite ease-in-out;
+        }
+
+        @keyframes float-dust {
+            0%, 100% { transform: translate(0, 0) scale(0.8); opacity: 0.7; }
+            50% { transform: translate(-4px, -4px) scale(1.1); opacity: 0.4; }
         }
     </style>
 </head>
@@ -240,52 +223,55 @@
 
         <section class="glass-panel">
             <h2>Релизы</h2>
-            
-            <!-- Трек 1: Лиричный -->
-            <div class="track-item">
-                <img src="music/Covers/bez-vesti-zhivoy.png" alt="Обложка трека" class="cover-art">
-                <div class="track-info">
-                    <div class="track-genre">Лирическая / Баллада </div>
-                    <div class="track-title">Без вести живой</div>
-                    
-                    /*Элемент поиска*/
-                    <div class="search-container">
-    <input type="search" id="search-input" placeholder="Поиск по названию или жанру" />
-    <button onclick="searchTracks()">Искать</button>
-</div>
-                    <!-- Скрытый аудиофайл -->
-                    <audio id="audio-neon" preload="metadata">
-                        <source src="music/Без-вести-живой.mp3" type="audio/mpeg">
-                    </audio>
-                    
-                    <!-- Кастомная кнопка вместо плеера -->
-                    <button type="button" class="play-btn" data-audio="audio-neon">Слушать</button>
 
-                    <div class="action-buttons">
-                        <a href="#" class="btn-stream">Слушать в Яндекс.Музыке</a>
-                        <a href="#" class="btn-license">Купить лицензию</a>
-                    </div>
-                </div>
+            <!-- Поиск вынесен наверх -->
+            <div class="search-container">
+                <input type="search" id="search-input" placeholder="Поиск по названию или жанру" />
+                <button onclick="searchTracks()">Искать</button>
             </div>
 
-            <!-- Трек 2: Лиричный -->
-            <div class="track-item">
-                <img src="music/Covers/Zhuravliny-klin.png" alt="Обложка трека" class="cover-art">
-                <div class="track-info">
-                    <div class="track-genre">Лирическая / Баллада </div>
-                    <div class="track-title">Журавлиный клин </div>
-                    
-                    <!-- Скрытый аудиофайл -->
-                    <audio id="audio-ocean" preload="metadata">
-                        <source src="music/Бессмертный-клин.mp3" type="audio/mpeg">
-                    </audio>
+            <div class="track-items-container">
+                <!-- Трек 1: Лиричный -->
+                <div class="track-item">
+                    <img src="music/Covers/bez-vesti-zhivoy.png" alt="Обложка трека" class="cover-art">
+                    <div class="track-info">
+                        <div class="track-genre">Лирическая / Баллада </div>
+                        <div class="track-title">Без вести живой</div>
+                        
+                        <!-- Скрытый аудиофайл -->
+                        <audio id="audio-neon" preload="metadata">
+                            <source src="music/Без-вести-живой.mp3" type="audio/mpeg">
+                        </audio>
+                        
+                        <!-- Кастомная кнопка вместо плеера -->
+                        <button type="button" class="play-btn" data-audio="audio-neon">Слушать</button>
 
-                    <!-- Кастомная кнопка вместо плеера -->
-                    <button type="button" class="play-btn" data-audio="audio-ocean">Слушать</button>
+                        <div class="action-buttons">
+                            <a href="#" class="btn-stream">Слушать в Яндекс.Музыке</a>
+                            <a href="#" class="btn-license">Купить лицензию</a>
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="action-buttons">
-                        <a href="#" class="btn-stream">Слушать в Spotify</a>
-                        <a href="#" class="btn-license">Купить лицензию</a>
+                <!-- Трек 2: Лиричный -->
+                <div class="track-item">
+                    <img src="music/Covers/Zhuravliny-klin.png" alt="Обложка трека" class="cover-art">
+                    <div class="track-info">
+                        <div class="track-genre">Лирическая / Баллада </div>
+                        <div class="track-title">Журавлиный клин </div>
+                        
+                        <!-- Скрытый аудиофайл -->
+                        <audio id="audio-ocean" preload="metadata">
+                            <source src="music/Бессмертный-клин.mp3" type="audio/mpeg">
+                        </audio>
+
+                        <!-- Кастомная кнопка вместо плеера -->
+                        <button type="button" class="play-btn" data-audio="audio-ocean">Слушать</button>
+
+                        <div class="action-buttons">
+                            <a href="#" class="btn-stream">Слушать в Spotify</a>
+                            <a href="#" class="btn-license">Купить лицензию</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -314,11 +300,10 @@
                     const audioId = this.getAttribute('data-audio');
                     const audio = document.getElementById(audioId);
                     
-                    // Если другой трек играет - ставим его на паузу
                     document.querySelectorAll('audio').forEach(a => {
                         if (a !== audio && !a.paused) {
                             a.pause();
-                            const otherBtn = document.querySelector(`.play-btn[data-audio="\${a.id}"]`);
+                            const otherBtn = document.querySelector(`.play-btn[data-audio="${a.id}"]`);
                             if (otherBtn) {
                                 otherBtn.textContent = 'Слушать';
                                 otherBtn.classList.remove('playing');
@@ -327,32 +312,4 @@
                     });
 
                     if (audio.paused) {
-                        audio.play().catch(e => console.log('Автовоспроизведение заблокировано браузером, требуется клик', e));
-                        this.textContent = 'Пауза';
-                        this.classList.add('playing');
-                    } else {
-                        audio.pause();
-                        this.textContent = 'Слушать';
-                        this.classList.remove('playing');
-                    }
-                });
-            });
-        });
-        function searchTracks() {
-        const query = document.getElementById('search-input').value.toLowerCase();
-        const tracks = document.querySelectorAll('.track-item');
-        
-        tracks.forEach(track => {
-            const title = track.querySelector('.track-title').innerText.toLowerCase();
-            const genre = track.querySelector('.track-genre').innerText.toLowerCase();
-            
-            if (title.includes(query) || genre.includes(query)) {
-                track.style.display = 'flex';
-            } else {
-                track.style.display = 'none';
-            }
-        });
-    }
-    </script>
-</body>
-</html>
+                        audio.
